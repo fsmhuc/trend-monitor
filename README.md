@@ -9,6 +9,8 @@ Daily business opportunity discovery tool - monitors AI products and trending to
 
 **[View Today's Report →](https://dongzhang84.github.io/trend-monitor/)**
 
+![Dashboard screenshot](images/screenshot_1.png)
+
 The dashboard updates automatically every morning via GitHub Actions. Dark theme, responsive layout, clickable cards for all 6 data sources.
 
 ## Features
