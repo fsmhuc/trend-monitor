@@ -245,48 +245,48 @@ trend-monitor/
 ## Example Output
 
 ```markdown
-# AI/Tech 趋势日报
+# AI/Tech Daily Trend Report
 
-**生成时间**: 2026-03-17 07:00 (PDT)
+**Generated**: 2026-03-17 07:00 (PDT)
 
 ---
 
-## Product Hunt 今日热门
+## Product Hunt - Today's Hot Products
 
 ### 1. [AI Assistant Pro](https://www.producthunt.com/posts/ai-assistant-pro)
 
-- **简介**: Your personal AI productivity companion
+- **Tagline**: Your personal AI productivity companion
 
 ---
 
-## Toolify - AI 工具
+## Toolify - AI Tools
 
-### 最新上线
+### Latest
 
 1. **[PUNK](https://www.toolify.ai/tool/punk-remote-control-for-claude-code)** - Mobile remote control for local Claude Code AI agents.
 
-### Trending 榜单
+### Trending
 
 1. **[Claude 2](https://www.toolify.ai/tool/claude-2)** - Claude is an AI assistant from Anthropic.
-   - 月访问量: 290.3M | 增长率: 43.07%
+   - Monthly visits: 290.3M | Growth rate: 43.07%
 
 ---
 
-## There's An AI For That - 今日新工具
+## There's An AI For That - New Tools
 
 ### 1. [ImageGen AI](https://theresanaiforthat.com/ai/imagegen-ai/)
 
-- **描述**: Create stunning images from text prompts instantly
-- **分类**: Images
+- **Description**: Create stunning images from text prompts instantly
+- **Category**: Images
 
 ---
 
-## Chrome Extensions 热门
+## Chrome Extensions - Trending
 
 ### 1. [Compose AI](https://chromewebstore.google.com/detail/compose-ai/...)
 
-- **描述**: Accelerate your writing with AI
-- **安装量**: 300,000 users | **评分**: 4.8/5.0
+- **Description**: Accelerate your writing with AI
+- **Installs**: 300,000 users | **Rating**: 4.8/5.0
 
 ---
 
@@ -294,57 +294,57 @@ trend-monitor/
 
 ### 1. [anthropics/claude-code](https://github.com/anthropics/claude-code)
 
-- **描述**: Claude's official coding assistant
-- **今日Stars**: 1,234 stars today
+- **Description**: Claude's official coding assistant
+- **Stars today**: 1,234 stars today
 
 ---
 
-## Hacker News 热门
+## Hacker News - Top Stories
 
 ### 1. [Show HN: I built an open-source AI tool](https://news.ycombinator.com/item?id=12345)
 
-- **作者**: developer123
-- **分数**: 456 points | **评论**: 89
+- **Author**: developer123
+- **Score**: 456 points | **Comments**: 89
 ```
 
 ### Weekly Report Example
 
 ```markdown
-# AI/Tech 趋势周报
+# AI/Tech Weekly Trend Report
 
-**统计周期**: 2026-01-25 至 2026-01-31 (共7天数据)
-**生成时间**: 2026-01-31 22:00 (PST)
-
----
-
-## 本周数据概览
-
-- **监测条目总数**: 210 个
-- Product Hunt: 35 个 (去重后 28 个)
-- Toolify Trending: 70 个 (去重后 60 个)
-- AI 工具: 35 个 (去重后 30 个)
-- Chrome 扩展: 35 个 (去重后 32 个)
-- GitHub 项目: 35 个 (去重后 33 个)
-- Hacker News: 35 个 (去重后 31 个)
+**Period**: 2026-01-25 to 2026-01-31 (7 days of data)
+**Generated**: 2026-01-31 22:00 (PST)
 
 ---
 
-## 本周热门关键词
+## Weekly Overview
 
-1. **AI** - 出现 15 次
-2. **automation** - 出现 12 次
-3. **productivity** - 出现 10 次
+- **Total items monitored**: 210
+- Product Hunt: 35 (28 unique)
+- Toolify Trending: 70 (60 unique)
+- AI Tools: 35 (30 unique)
+- Chrome Extensions: 35 (32 unique)
+- GitHub Projects: 35 (33 unique)
+- Hacker News: 35 (31 unique)
 
 ---
 
-## 重复出现（持续热度）
+## Top Keywords This Week
+
+1. **AI** - appeared 15 times
+2. **automation** - appeared 12 times
+3. **productivity** - appeared 10 times
+
+---
+
+## Repeated Appearances (Sustained Momentum)
 
 ### Product Hunt
 
-1. **[AI Writer Pro](link)** - 出现 3 次
-   - 描述: AI写作助手
-   - 首次发现: 1月26日
-   - 最近出现: 1月30日
+1. **[AI Writer Pro](link)** - appeared 3 times
+   - Description: AI writing assistant
+   - First seen: Jan 26
+   - Last seen: Jan 30
 ```
 
 ## Troubleshooting
