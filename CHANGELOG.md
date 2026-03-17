@@ -5,12 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-03-17
+
+### Added
+- HTML report generation (`reporters/html_generator.py`) — dark-theme, responsive, card-based layout
+- `docs/index.html` published to GitHub Pages on every daily run
+- GitHub Actions auto-commit step: pushes `docs/index.html` + daily JSON to repo after each run
+- `contents: write` permission added to daily workflow for git push support
+
+### Changed
+- `main.py` now generates both `report.md` and `docs/index.html` on every run
+- HTML UI colors: replaced all purple/violet accents with light blue (`#60a5fa`)
+- HTML title font size increased to `3rem` for prominence
+- "View →" buttons styled with blue-on-dark-blue look (`#1e3a5f` bg, `#60a5fa` text)
+
+### Technical
+- `reporters/html_generator.py`: inline CSS, no external dependencies, HTML-escaped output
+- Card badges per source: Toolify (monthly visits + growth rate), Chrome (installs + rating), GitHub (stars), HN (score + comments)
+- `collectors/__init__.py`: added `fetch_toolify_tools` export for `from collectors import *`
+- Workflow commit message uses `[skip ci]` to prevent infinite trigger loops
+
 ## [1.3.0] - 2026-03-17
 
 ### Added
 - Toolify.ai data source with two sections: latest tools (`/new`) and trending tools (`/Best-trending-AI-Tools`)
 - Trending tools include monthly visit count and growth rate (e.g. `1054%`)
-- Toolify section in daily report (最新上线 + Trending 榜单)
+- Toolify section in daily report (Latest + Trending subsections)
 - Toolify integrated into weekly report: overview, repeated items, new discoveries, statistics
 - Playwright-based scraper to bypass Cloudflare protection on Toolify.ai
 

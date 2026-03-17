@@ -3,16 +3,23 @@
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-Daily business opportunity discovery tool - monitors AI products and trending tools from 6 sources. Get a curated digest delivered to your inbox every morning to discover new products and market opportunities.
+Daily business opportunity discovery tool - monitors AI products and trending tools from 6 sources. Get a curated digest delivered to your inbox every morning **and** browse a live web dashboard updated automatically every day.
+
+## Live Demo
+
+**[View Today's Report →](https://dongzhang84.github.io/trend-monitor/)**
+
+The dashboard updates automatically every morning via GitHub Actions. Dark theme, responsive layout, clickable cards for all 6 data sources.
 
 ## Features
 
 - **Multi-source Aggregation** - Collects data from 6 sources: Product Hunt, Toolify.ai, There's An AI For That, Chrome Extensions, GitHub, Hacker News
-- **Automated Reports** - Generates clean Markdown reports with all trending items
+- **Web Dashboard** - Live HTML report at GitHub Pages, dark theme, responsive card layout, auto-updated daily
+- **Automated Reports** - Generates Markdown reports and HTML dashboard on every run
 - **Weekly Reports** - Automated weekly summaries with trend analysis every Sunday 22:00 PST
 - **Email Delivery** - Sends formatted HTML emails directly to your inbox
-- **GitHub Actions** - Fully automated daily and weekly execution
-- **Zero Cost** - Uses free APIs and GitHub Actions (no paid services required)
+- **GitHub Actions** - Fully automated daily and weekly execution with auto-deploy to GitHub Pages
+- **Zero Cost** - Uses free APIs, GitHub Actions, and GitHub Pages (no paid services required)
 
 ## Data Sources
 
@@ -112,7 +119,12 @@ python main.py --no-email
 
 ### Output
 
-The script generates a `report.md` file containing all collected trends, formatted in Markdown.
+The script generates two files on every run:
+
+| File | Description |
+|------|-------------|
+| `report.md` | Markdown report (local reference) |
+| `docs/index.html` | Dark-theme HTML dashboard (published to GitHub Pages) |
 
 ## GitHub Actions Setup
 
@@ -142,11 +154,22 @@ Go to your repository on GitHub:
 | `SMTP_SERVER` | `smtp.gmail.com` |
 | `SMTP_PORT` | `587` |
 
-### 3. Schedule
+### 3. Enable GitHub Pages
+
+After your first workflow run, enable GitHub Pages to host the HTML dashboard:
+
+1. Go to **Settings** → **Pages**
+2. Under **Source**, select **Deploy from a branch**
+3. Branch: `main`, folder: `/docs`
+4. Click **Save**
+
+Your dashboard will be live at `https://YOUR_USERNAME.github.io/trend-monitor/`
+
+### 4. Schedule
 
 The workflows run automatically:
-- **Daily Reports**: 7:00 AM PST (every day)
-- **Weekly Reports**: 10:00 PM PST (every Sunday)
+- **Daily Reports**: 7:00 AM PST (every day) — generates email + HTML dashboard + commits to repo
+- **Weekly Reports**: 10:00 PM PST (every Sunday) — generates trend analysis email
 
 To manually trigger a workflow:
 1. Go to **Actions** tab
@@ -214,7 +237,8 @@ trend-monitor/
 ├── reporters/             # Report generation
 │   ├── __init__.py
 │   ├── report_generator.py
-│   └── weekly_report_generator.py
+│   ├── weekly_report_generator.py
+│   └── html_generator.py  # Dark-theme HTML dashboard
 │
 ├── senders/               # Email delivery
 │   ├── __init__.py
@@ -231,6 +255,9 @@ trend-monitor/
 ├── data/                  # Daily data storage
 │   └── daily/
 │       └── YYYY-MM-DD.json
+│
+├── docs/                  # GitHub Pages output
+│   └── index.html         # HTML dashboard (auto-updated daily)
 │
 ├── reports/               # Generated reports
 │   └── weekly/

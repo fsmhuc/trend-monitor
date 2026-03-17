@@ -34,6 +34,10 @@ AI/Tech 趋势监控工具，自动采集热点数据，生成日报和周报，
 - 之前踩过坑：Chrome Extensions 用动态搜索而非硬编码ID
 - Toolify.ai 有 Cloudflare 保护，必须用 Playwright（requests 会被 403）；需在 Actions 中执行 `playwright install chromium --with-deps`
 - Toolify fetch_toolify_tools() 返回 dict {'new': [...], 'trending': [...]}，存储时合并为平铺列表
+- collectors/__init__.py 需要显式导出 fetch_toolify_tools，否则 `from collectors import *` 不包含它
+- HTML 报告生成到 docs/index.html，由 GitHub Pages 提供访问；daily workflow 每次运行后自动 commit+push
+- workflow commit 用 [skip ci] 防止无限循环触发
+- collectors 函数名：fetch_product_hunt_posts, fetch_trending_repos, fetch_hackernews_posts（不是 fetch_product_hunt/fetch_github_trending/fetch_hackernews）
 
 ## 开发规则
 - 每次修改后跑测试确认不破坏已有功能
