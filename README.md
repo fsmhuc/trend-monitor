@@ -13,6 +13,10 @@ Daily business opportunity discovery tool - monitors AI products and trending to
 
 The dashboard updates automatically every morning via GitHub Actions. Dark theme, responsive layout, clickable cards for all 6 data sources.
 
+![Indie Opportunities screenshot](images/screenshot_2.png)
+
+The Indie Opportunities page scores every product for solo-builder viability and provides an expandable 8-question deep-dive for the top 5 picks.
+
 ## Features
 
 - **Multi-source Aggregation** - Collects data from 6 sources: Product Hunt, Toolify.ai, There's An AI For That, Chrome Extensions, GitHub, Hacker News
