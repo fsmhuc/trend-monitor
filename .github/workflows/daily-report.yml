@@ -53,7 +53,8 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add docs/index.html
           git add data/daily/*.json || true
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: Update daily report [skip ci]" && git push)
+          git add analysis/daily/*.md || true
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: Update daily report and indie analysis [skip ci]" && git push)
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
