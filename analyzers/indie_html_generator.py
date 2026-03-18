@@ -298,6 +298,8 @@ _CSS = """
 
     .top-card-info { flex: 1; min-width: 0; }
     .top-card-name { font-size: 17px; font-weight: 700; color: #f7fafc; }
+    .product-name-link { color: #f7fafc; text-decoration: none; }
+    .product-name-link:hover { color: #60a5fa; text-decoration: underline; }
     .top-card-desc { font-size: 13px; color: #a0aec0; margin-top: 4px; }
     .top-card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 
@@ -605,7 +607,10 @@ def generate_indie_html(indie_report_markdown, product_data):
             <div class="top-card-header">
                 <div class="rank-badge">#{rank}</div>
                 <div class="top-card-info">
-                    <div class="top-card-name">{_e(name)}</div>
+                    <div class="top-card-name">{
+                        f'<a href="{_e(url)}" target="_blank" rel="noopener" class="product-name-link">{_e(name)}</a>'
+                        if url else _e(name)
+                    }</div>
                     <div class="top-card-desc">{_e(desc)}</div>
                     <div class="top-card-meta">
                         <span class="source-tag">{_e(source)}</span>
