@@ -10,6 +10,7 @@ from collectors import fetch_trending_repos, fetch_product_hunt_posts, fetch_hac
 from collectors.toolify import fetch_toolify_tools
 from reporters import generate_markdown_report
 from reporters.html_generator import generate_html_report
+from analyzers.indie_analyzer import generate_indie_report
 from senders import send_email_report
 from storage import save_daily_data
 
@@ -100,6 +101,22 @@ def main():
         print(f"✅ 数据已存储：data/daily/{today}.json")
     else:
         print("⚠️  数据存储失败，继续执行...")
+
+    # 生成 Indie Hacker 机会分析报告
+    print("正在生成 Indie 分析报告...")
+    indie_report = generate_indie_report(
+        product_hunt_data,
+        toolify_data,
+        ai_tools_data,
+        chrome_extensions_data,
+        github_trending_data,
+        hackernews_data,
+    )
+    os.makedirs("analysis/daily", exist_ok=True)
+    indie_path = f"analysis/daily/{today}-indie.md"
+    with open(indie_path, "w", encoding="utf-8") as f:
+        f.write(indie_report)
+    print(f"✅ Indie analysis saved to {indie_path}")
 
     # 发送邮件
     if not args.no_email:
