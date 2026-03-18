@@ -17,7 +17,7 @@ The dashboard updates automatically every morning via GitHub Actions. Dark theme
 
 - **Multi-source Aggregation** - Collects data from 6 sources: Product Hunt, Toolify.ai, There's An AI For That, Chrome Extensions, GitHub, Hacker News
 - **Web Dashboard** - Live HTML report at GitHub Pages, dark theme, responsive card layout, auto-updated daily
-- **Indie Opportunity Analysis** - Daily report scoring products for solo-builder viability with an 8-question deep-dive per top pick
+- **Indie Opportunity Analysis** - Daily HTML dashboard scoring products for solo-builder viability, with sortable score table and expandable 8-question deep-dive per top pick
 - **Automated Reports** - Generates Markdown reports and HTML dashboard on every run
 - **Weekly Reports** - Automated weekly summaries with trend analysis every Sunday 22:00 PST
 - **Email Delivery** - Sends formatted HTML emails directly to your inbox
@@ -122,13 +122,14 @@ python main.py --no-email
 
 ### Output
 
-The script generates three files on every run:
+The script generates four outputs on every run:
 
 | File | Description |
 |------|-------------|
-| `report.md` | Markdown report (local reference) |
-| `docs/index.html` | Dark-theme HTML dashboard (published to GitHub Pages) |
-| `analysis/daily/{date}-indie.md` | Indie hacker opportunity analysis (auto-committed by CI) |
+| `report.md` | Markdown digest (local reference) |
+| `docs/index.html` | Dark-theme product dashboard (GitHub Pages, links to indie.html) |
+| `docs/indie.html` | Indie opportunity dashboard (GitHub Pages, links back to index.html) |
+| `analysis/daily/{date}-indie.md` | Indie analysis in markdown (auto-committed by CI) |
 
 ## GitHub Actions Setup
 
@@ -251,9 +252,17 @@ The analyzer detects 14 product domains from the actual description (fortune tel
 ### Reports location
 
 ```
+docs/
+└── indie.html                    ← live at GitHub Pages /indie.html
 analysis/daily/
-└── 2026-03-18-indie.md   ← auto-committed by GitHub Actions daily
+└── 2026-03-18-indie.md           ← markdown version, auto-committed by CI
 ```
+
+### Navigation
+
+The two dashboards link to each other:
+- **index.html** → "View Indie Opportunities →" → **indie.html**
+- **indie.html** → "← View All Products" → **index.html**
 
 ## Project Structure
 
@@ -293,14 +302,16 @@ trend-monitor/
 ├── analyzers/             # Analysis modules
 │   ├── __init__.py
 │   ├── weekly_analyzer.py
-│   └── indie_analyzer.py  # Indie opportunity scoring & deep-dive
+│   ├── indie_analyzer.py       # Filter, score, 8-question deep-dive (rule-based)
+│   └── indie_html_generator.py # Dark-theme HTML for indie dashboard
 │
 ├── data/                  # Daily data storage
 │   └── daily/
 │       └── YYYY-MM-DD.json
 │
 ├── docs/                  # GitHub Pages output
-│   └── index.html         # HTML dashboard (auto-updated daily)
+│   ├── index.html         # Product dashboard (auto-updated daily)
+│   └── indie.html         # Indie opportunity dashboard (auto-updated daily)
 │
 ├── analysis/              # Indie opportunity analysis
 │   └── daily/

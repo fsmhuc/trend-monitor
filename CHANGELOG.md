@@ -18,9 +18,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `analysis/daily/{date}-indie.md` output file created on every run
 - GitHub Actions daily workflow now auto-commits `analysis/daily/*.md`
 
+### Added (continued)
+- `analyzers/indie_html_generator.py` — dark-theme HTML version of indie report
+  - Collapsible filtered-out table (`<details>`)
+  - Sortable quick-score table (vanilla JS, click any column header)
+  - Top-5 expandable cards with full 8-question Q&A per product
+  - Source-aware link buttons: "View on GitHub →", "View on HN →", "Visit Product →"
+  - Clickable product names (white → light-blue on hover, open in new tab)
+  - Stats bar: products analysed / filtered / scored / deep-dives
+- `docs/indie.html` — indie opportunity dashboard published to GitHub Pages
+- Navigation between dashboards: `index.html ↔ indie.html`
+
 ### Changed
-- `main.py` generates indie analysis after HTML report, before email sending
-- Daily workflow commit message updated to mention indie analysis
+- `main.py` generates indie HTML report (`docs/indie.html`) after markdown, before email
+- `reporters/html_generator.py`: added "View Indie Opportunities →" nav link
+- Daily workflow auto-commits `docs/indie.html` alongside `docs/index.html`
+- `.gitignore`: added `test*.md`, `test*.html`, `main_output.log`, `.claude/`
+- Untracked `.claude/settings.local.json` from git history
 
 ## [1.3.1] - 2026-03-17
 
