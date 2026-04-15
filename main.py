@@ -13,6 +13,7 @@ from analyzers.opportunity_analyzer import generate_opportunity_report
 from analyzers.opportunity_html_generator import generate_opportunity_html
 from senders import send_email_report
 from storage import save_daily_data
+from llm_comment import generate_comment
 
 
 def main():
@@ -47,6 +48,18 @@ def main():
     ai_news_data = fetch_ai_news(limit=5)
     print(f"    获取到 {len(ai_news_data)} 条新闻")
 
+    # 生成各板块简评
+    print("正在生成智能简评...")
+    comments = {
+        "github": generate_comment("GitHub Trending", github_trending_data),
+        "product_hunt": generate_comment("Product Hunt", product_hunt_data),
+        "hacker_news": generate_comment("Hacker News", hackernews_data),
+        "ai_tools": generate_comment("AI 工具推荐", ai_tools_data),
+        "ai_news": generate_comment("AI 行业新闻", ai_news_data),
+    }
+    for k, v in comments.items():
+        print(f"  [{k}] {v}")
+
     # 生成 Markdown 报告
     print("正在生成报告...")
     report = generate_markdown_report(
@@ -55,6 +68,7 @@ def main():
         hackernews_data,
         ai_tools_data,
         ai_news_data,
+        comments,
     )
     with open("report.md", "w", encoding="utf-8") as f:
         f.write(report)
@@ -67,6 +81,7 @@ def main():
         github_trending_data,
         hackernews_data,
         ai_news_data,
+        comments,
     )
     os.makedirs("docs", exist_ok=True)
     with open("docs/index.html", "w", encoding="utf-8") as f:
@@ -83,6 +98,7 @@ def main():
         "hacker_news": hackernews_data,
         "ai_tools": ai_tools_data,
         "ai_news": ai_news_data,
+        "comments": comments,
     }
     if save_daily_data(today, daily_data):
         print(f"✅ 数据已存储：data/daily/{today}.json")
