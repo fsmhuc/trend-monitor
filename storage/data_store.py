@@ -63,3 +63,28 @@ def cleanup_old_data(keep_days=30):
     except Exception as e:
         print(f"清理失败: {e}")
         return False
+
+
+def load_daily_data(date):
+    """加载指定日期的数据"""
+    try:
+        filepath = DATA_DIR / f"{date}.json"
+        if filepath.exists():
+            with open(filepath, "r", encoding="utf-8") as f:
+                return json.load(f)
+        return {}
+    except Exception as e:
+        print(f"加载失败: {e}")
+        return {}
+
+
+def list_available_dates():
+    """列出所有可用的数据日期"""
+    try:
+        if not DATA_DIR.exists():
+            return []
+        dates = [f.stem for f in DATA_DIR.glob("*.json")]
+        return sorted(dates, reverse=True)
+    except Exception as e:
+        print(f"列出日期失败: {e}")
+        return []
