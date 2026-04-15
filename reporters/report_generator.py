@@ -1,109 +1,35 @@
-"""Markdown 报告生成器"""
+"""Markdown 报告生成器 - AI 趋势监控精简版"""
 
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
 
-def generate_markdown_report(repos, products, hackernews_posts, ai_tools=None, chrome_extensions=None, toolify_tools=None):
-    """生成Markdown格式的报告"""
-    pst = ZoneInfo("America/Los_Angeles")
-    now = datetime.now(pst)
-    tz_abbr = now.strftime("%Z")  # PST 或 PDT（自动处理夏令时）
-    timestamp = now.strftime(f"%Y-%m-%d %H:%M ({tz_abbr})")
+def generate_markdown_report(repos, products, hackernews_posts, ai_tools=None, ai_news=None):
+    """生成 Markdown 格式的报告"""
+    cst = ZoneInfo("Asia/Shanghai")
+    now = datetime.now(cst)
+    timestamp = now.strftime("%Y-%m-%d %H:%M (北京时间)")
 
     lines = [
-        "# AI/Tech 趋势日报",
+        "# 🤖 AI 趋势日报",
         "",
         f"**生成时间**: {timestamp}",
         "",
         "---",
         "",
-        "## Product Hunt 今日热门",
-        "",
     ]
 
-    if products:
-        for i, product in enumerate(products, 1):
-            lines.append(f"### {i}. [{product['name']}]({product['link']})")
-            lines.append("")
-            lines.append(f"- **简介**: {product['tagline']}")
-            lines.append("")
-    else:
-        lines.append("*暂无数据*")
-        lines.append("")
-
-    lines.append("---")
+    # GitHub Trending
+    lines.append("## 🐙 GitHub Trending")
     lines.append("")
-    lines.append("## Toolify - AI 工具")
-    lines.append("")
-
-    new_tools = toolify_tools.get("new", []) if isinstance(toolify_tools, dict) else []
-    trending_tools = toolify_tools.get("trending", []) if isinstance(toolify_tools, dict) else []
-
-    lines.append("### 最新上线")
-    lines.append("")
-    if new_tools:
-        for i, tool in enumerate(new_tools, 1):
-            lines.append(f"{i}. **[{tool['name']}]({tool['link']})** - {tool['description']}")
-        lines.append("")
-    else:
-        lines.append("*暂无数据*")
-        lines.append("")
-
-    lines.append("### Trending 榜单")
-    lines.append("")
-    if trending_tools:
-        for i, tool in enumerate(trending_tools, 1):
-            lines.append(f"{i}. **[{tool['name']}]({tool['link']})** - {tool['description']}")
-            lines.append(f"   - 月访问量: {tool['monthly_visit']} | 增长率: {tool['growth_rate']}")
-        lines.append("")
-    else:
-        lines.append("*暂无数据*")
-        lines.append("")
-
-    lines.append("---")
-    lines.append("")
-    lines.append("## There's An AI For That - 今日新工具")
-    lines.append("")
-
-    if ai_tools:
-        for i, tool in enumerate(ai_tools, 1):
-            lines.append(f"### {i}. [{tool['name']}]({tool['link']})")
-            lines.append("")
-            lines.append(f"- **描述**: {tool['description']}")
-            lines.append(f"- **分类**: {tool['category']}")
-            lines.append("")
-    else:
-        lines.append("*暂无数据*")
-        lines.append("")
-
-    lines.append("---")
-    lines.append("")
-    lines.append("## Chrome Extensions 热门")
-    lines.append("")
-
-    if chrome_extensions:
-        for i, ext in enumerate(chrome_extensions, 1):
-            lines.append(f"### {i}. [{ext['name']}]({ext['link']})")
-            lines.append("")
-            lines.append(f"- **描述**: {ext['description']}")
-            lines.append(f"- **安装量**: {ext['users']} | **评分**: {ext['rating']}")
-            lines.append("")
-    else:
-        lines.append("*暂无数据*")
-        lines.append("")
-
-    lines.append("---")
-    lines.append("")
-    lines.append("## GitHub Trending")
-    lines.append("")
-
     if repos:
         for i, repo in enumerate(repos, 1):
-            lines.append(f"### {i}. [{repo['name']}](https://github.com/{repo['name']})")
-            lines.append("")
-            lines.append(f"- **描述**: {repo['description']}")
-            lines.append(f"- **今日Stars**: {repo['today_stars']}")
+            name = repo.get("name", "未知")
+            desc = repo.get("description", "无描述")
+            stars = repo.get("stars", "N/A")
+            link = f"https://github.com/{name}"
+            lines.append(f"### {i}. [{name}]({link}) ⭐ {stars}")
+            lines.append(f"- {desc}")
             lines.append("")
     else:
         lines.append("*暂无数据*")
@@ -111,18 +37,87 @@ def generate_markdown_report(repos, products, hackernews_posts, ai_tools=None, c
 
     lines.append("---")
     lines.append("")
-    lines.append("## Hacker News 热门")
-    lines.append("")
 
-    if hackernews_posts:
-        for i, post in enumerate(hackernews_posts, 1):
-            lines.append(f"### {i}. [{post['title']}]({post['url']})")
-            lines.append("")
-            lines.append(f"- **作者**: {post['author']}")
-            lines.append(f"- **分数**: {post['score']} points | **评论**: {post['comments']}")
+    # Product Hunt
+    lines.append("## 🚀 Product Hunt 今日热门")
+    lines.append("")
+    if products:
+        for i, product in enumerate(products, 1):
+            name = product.get("name", "未知")
+            tagline = product.get("tagline", "无简介")
+            link = product.get("link", "")
+            lines.append(f"### {i}. [{name}]({link})")
+            lines.append(f"- {tagline}")
             lines.append("")
     else:
         lines.append("*暂无数据*")
         lines.append("")
+
+    lines.append("---")
+    lines.append("")
+
+    # There's An AI For That
+    lines.append("## 🧰 AI 工具推荐")
+    lines.append("")
+    if ai_tools:
+        for i, tool in enumerate(ai_tools, 1):
+            name = tool.get("name", "未知")
+            desc = tool.get("description", "无描述")
+            link = tool.get("link", "")
+            category = tool.get("category", "")
+            lines.append(f"### {i}. [{name}]({link})")
+            if desc:
+                lines.append(f"- {desc}")
+            if category:
+                lines.append(f"- 分类: {category}")
+            lines.append("")
+    else:
+        lines.append("*暂无数据*")
+        lines.append("")
+
+    lines.append("---")
+    lines.append("")
+
+    # Hacker News
+    lines.append("## 💬 Hacker News 热议")
+    lines.append("")
+    if hackernews_posts:
+        for i, post in enumerate(hackernews_posts, 1):
+            title = post.get("title", "未知")
+            link = post.get("link", "")
+            points = post.get("points", "N/A")
+            comments = post.get("comments", "N/A")
+            lines.append(f"### {i}. [{title}]({link})")
+            lines.append(f"- 得分: {points} | 评论: {comments}")
+            lines.append("")
+    else:
+        lines.append("*暂无数据*")
+        lines.append("")
+
+    lines.append("---")
+    lines.append("")
+
+    # AI 行业新闻（投资参考）
+    lines.append("## 📈 AI 行业新闻（投资参考）")
+    lines.append("")
+    if ai_news:
+        for i, news in enumerate(ai_news, 1):
+            title = news.get("title", "未知")
+            link = news.get("link", "")
+            source = news.get("source", "")
+            desc = news.get("desc", "")
+            lines.append(f"### {i}. [{title}]({link})")
+            lines.append(f"- **来源:** {source}")
+            if desc:
+                lines.append(f"- {desc}")
+            lines.append("")
+    else:
+        lines.append("*暂无数据*")
+        lines.append("")
+
+    lines.append("---")
+    lines.append("")
+    lines.append("_报告由 trend-monitor 自动生成_")
+    lines.append("")
 
     return "\n".join(lines)

@@ -1,12 +1,15 @@
 name: Weekly Trend Report
 
 on:
-  # 定时触发：每周日 PST 22:00 (UTC 周一 06:00)
+  # 定时触发：每周一北京时间 08:00 (UTC 00:00)
   schedule:
-    - cron: '0 6 * * 1'
+    - cron: '0 0 * * 1'
 
   # 手动触发
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   generate-weekly-report:
@@ -32,9 +35,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Install Playwright browsers
-        run: playwright install chromium --with-deps
-
       - name: Generate weekly report
         env:
           EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
@@ -44,10 +44,9 @@ jobs:
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
         run: python weekly_report.py
 
-      - name: Upload weekly report artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: weekly-report-${{ github.run_number }}
-          path: reports/weekly/*.md
-          retention-days: 30
-          if-no-files-found: warn
+      - name: Commit and push weekly report
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add reports/weekly/*.md || true
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: Update weekly report [skip ci]" && git push)
