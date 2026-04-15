@@ -1,16 +1,13 @@
-"""HTML report generator - dark theme, card-based layout - AI 趋势监控精简版（带简评）"""
+"""HTML report generator - dark theme, card-based layout - AI 趋势监控精简版"""
 
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
 
-def generate_html_report(product_hunt_data, ai_tools_data, github_trending_data, hackernews_data, ai_news_data=None, comments=None):
+def generate_html_report(product_hunt_data, ai_tools_data, github_trending_data, hackernews_data, ai_news_data=None):
     """
     Generate a responsive dark-theme HTML report from all data sources.
     """
-    if comments is None:
-        comments = {}
-
     cst = ZoneInfo("Asia/Shanghai")
     now = datetime.now(cst)
     date_str = now.strftime("%Y-%m-%d %H:%M (北京时间)")
@@ -26,9 +23,7 @@ def generate_html_report(product_hunt_data, ai_tools_data, github_trending_data,
         .nav a:hover { background: #21262d; }
         .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
         .section { margin-bottom: 40px; }
-        .section h2 { color: #58a6ff; font-size: 1.5em; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
-        .section .comment { background: #1c2333; border-left: 3px solid #58a6ff; padding: 10px 14px; margin-bottom: 16px; border-radius: 0 6px 6px 0; color: #a8d4ff; font-size: 0.95em; line-height: 1.5; }
-        .section .comment::before { content: "💡 "; }
+        .section h2 { color: #58a6ff; font-size: 1.5em; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
         .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 16px; transition: border-color 0.2s; }
         .card:hover { border-color: #58a6ff; }
@@ -45,20 +40,20 @@ def generate_html_report(product_hunt_data, ai_tools_data, github_trending_data,
     sections_html = []
 
     # GitHub Trending
-    sections_html.append(_render_section("🐙 GitHub Trending", "github", github_trending_data, _render_github_card, comments.get("github", "")))
+    sections_html.append(_render_section("🐙 GitHub Trending", "github", github_trending_data, _render_github_card))
 
     # Product Hunt
-    sections_html.append(_render_section("🚀 Product Hunt 今日热门", "producthunt", product_hunt_data, _render_product_card, comments.get("product_hunt", "")))
+    sections_html.append(_render_section("🚀 Product Hunt 今日热门", "producthunt", product_hunt_data, _render_product_card))
 
     # AI Tools
-    sections_html.append(_render_section("🧰 AI 工具推荐", "aitools", ai_tools_data, _render_aitool_card, comments.get("ai_tools", "")))
+    sections_html.append(_render_section("🧰 AI 工具推荐", "aitools", ai_tools_data, _render_aitool_card))
 
     # Hacker News
-    sections_html.append(_render_section("💬 Hacker News 热议", "hackernews", hackernews_data, _render_hn_card, comments.get("hacker_news", "")))
+    sections_html.append(_render_section("💬 Hacker News 热议", "hackernews", hackernews_data, _render_hn_card))
 
     # AI News
     if ai_news_data:
-        sections_html.append(_render_section("📈 AI 行业新闻（投资参考）", "ainews", ai_news_data, _render_news_card, comments.get("ai_news", "")))
+        sections_html.append(_render_section("📈 AI 行业新闻（投资参考）", "ainews", ai_news_data, _render_news_card))
 
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -88,13 +83,11 @@ def generate_html_report(product_hunt_data, ai_tools_data, github_trending_data,
 </html>"""
 
 
-def _render_section(title, anchor, data, card_fn, comment=""):
-    """渲染一个板块，可选带简评"""
-    comment_html = f'<div class="comment">{comment}</div>' if comment else ""
+def _render_section(title, anchor, data, card_fn):
     if not data:
-        return f"""<div class="section" id="{anchor}"><h2>{title}</h2>{comment_html}<p style="color:#6e7681">暂无数据</p></div>"""
+        return f"""<div class="section" id="{anchor}"><h2>{title}</h2><p style="color:#6e7681">暂无数据</p></div>"""
     cards = "".join(card_fn(item) for item in data)
-    return f"""<div class="section" id="{anchor}"><h2>{title}</h2>{comment_html}<div class="grid">{cards}</div></div>"""
+    return f"""<div class="section" id="{anchor}"><h2>{title}</h2><div class="grid">{cards}</div></div>"""
 
 
 def _render_github_card(item):
