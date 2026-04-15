@@ -36,13 +36,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run trend monitor
-        env:
-          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-          EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
-          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-        run: python main.py
+        run: python main.py --no-email
 
       - name: Commit and push HTML report
         run: |
