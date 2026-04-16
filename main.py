@@ -12,9 +12,6 @@ from reporters.html_generator import generate_html_report
 from analyzers.opportunity_analyzer import generate_opportunity_report
 from analyzers.opportunity_html_generator import generate_opportunity_html
 from senders import send_email_report
-from storage import save_daily_data
-
-
 def main():
     parser = argparse.ArgumentParser(description="AI 趋势监控工具")
     parser.add_argument("--no-email", action="store_true", help="跳过发送邮件")
@@ -72,22 +69,6 @@ def main():
     with open("docs/index.html", "w", encoding="utf-8") as f:
         f.write(html_report)
     print("✅ HTML report saved to docs/index.html")
-
-    # 存储每日数据
-    print("正在存储数据...")
-    cst = ZoneInfo("Asia/Shanghai")
-    today = datetime.now(cst).strftime("%Y-%m-%d")
-    daily_data = {
-        "github_trending": github_trending_data,
-        "product_hunt": product_hunt_data,
-        "hacker_news": hackernews_data,
-        "ai_tools": ai_tools_data,
-        "ai_news": ai_news_data,
-    }
-    if save_daily_data(today, daily_data):
-        print(f"✅ 数据已存储：data/daily/{today}.json")
-    else:
-        print("⚠️  数据存储失败，继续执行...")
 
     # 生成创业机会+工作提效分析报告
     print("正在生成机会分析报告...")
