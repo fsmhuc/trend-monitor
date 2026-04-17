@@ -6,6 +6,8 @@ import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+today = datetime.now(ZoneInfo("Asia/Shanghai")).strftime("%Y-%m-%d")
+
 from collectors import fetch_trending_repos, fetch_product_hunt_posts, fetch_hackernews_posts, fetch_ai_tools, fetch_ai_news
 from reporters import generate_markdown_report
 from reporters.html_generator import generate_html_report
